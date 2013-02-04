@@ -1,3 +1,5 @@
 *.suo
 Modules/Core/bin/Debug/
 Modules/Core/obj/
+Modules/CoreService/bin
+Modules/CoreService/obj
