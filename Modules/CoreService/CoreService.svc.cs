@@ -10,22 +10,9 @@ namespace CoreService
 {
     public class CoreService : ICoreService
     {
-        public string GetData(int value)
+        public float Learn(List<string> values)
         {
-            return string.Format("You entered: {0}", value);
-        }
-
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
+            return 10.2f;
         }
     }
 }

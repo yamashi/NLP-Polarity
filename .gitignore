@@ -6,3 +6,6 @@ Modules/CoreService/obj
 Modules/CosineModule/obj
 Modules/DeepLearningModule/obj
 Modules/PreprocessingModule/obj
+Modules/CosineModule/bin
+Modules/DeepLearningModule/bin
+Modules/PreprocessingModule/bin

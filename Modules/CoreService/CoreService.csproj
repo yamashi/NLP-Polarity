@@ -80,6 +80,20 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CosineModule\CosineModule.csproj">
+      <Project>{c31d4850-ca95-4335-b62a-84f8631eac67}</Project>
+      <Name>CosineModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeepLearningModule\DeepLearningModule.csproj">
+      <Project>{e630a90c-30de-43bc-9393-830b78bba38e}</Project>
+      <Name>DeepLearningModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PreprocessingModule\PreprocessingModule.csproj">
+      <Project>{e049b6fa-a427-4d1e-9b5a-be3bb217569a}</Project>
+      <Name>PreprocessingModule</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
