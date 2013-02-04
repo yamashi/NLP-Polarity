@@ -1,0 +1,3 @@
+*.suo
+Modules/Core/bin/Debug/
+Modules/Core/obj/
