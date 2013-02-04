@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreService", "CoreService\CoreService.csproj", "{8414B29E-B92B-4DFB-B7F2-6D121BE16118}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosineModule", "CosineModule\CosineModule.csproj", "{C31D4850-CA95-4335-B62A-84F8631EAC67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepLearningModule", "DeepLearningModule\DeepLearningModule.csproj", "{E630A90C-30DE-43BC-9393-830B78BBA38E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreprocessingModule", "PreprocessingModule\PreprocessingModule.csproj", "{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +19,18 @@ Global
 		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

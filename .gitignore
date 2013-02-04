@@ -3,3 +3,6 @@ Modules/Core/bin/Debug/
 Modules/Core/obj/
 Modules/CoreService/bin
 Modules/CoreService/obj
+Modules/CosineModule/obj
+Modules/DeepLearningModule/obj
+Modules/PreprocessingModule/obj
