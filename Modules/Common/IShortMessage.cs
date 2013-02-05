@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace NaturalLanguageProcessing.Polarity.Common
 {
     public interface IShortMessage
     {

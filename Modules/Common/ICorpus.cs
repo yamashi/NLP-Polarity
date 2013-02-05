@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace NaturalLanguageProcessing.Polarity.Common
 {
-    /* Ou ICorpus : ISet<ISHortMessage> ??? */
+    /* Ou ICorpus : ISet<IShortMessage> ??? */
     public interface ICorpus<MessageType> : ISet<MessageType> where MessageType : IShortMessage
     {
     }

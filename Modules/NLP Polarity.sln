@@ -1,27 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreService", "CoreService\CoreService.csproj", "{8414B29E-B92B-4DFB-B7F2-6D121BE16118}"
-	ProjectSection(ProjectDependencies) = postProject
-		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosineModule", "CosineModule\CosineModule.csproj", "{C31D4850-CA95-4335-B62A-84F8631EAC67}"
-	ProjectSection(ProjectDependencies) = postProject
-		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepLearningModule", "DeepLearningModule\DeepLearningModule.csproj", "{E630A90C-30DE-43BC-9393-830B78BBA38E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreprocessingModule", "PreprocessingModule\PreprocessingModule.csproj", "{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{79A66BBA-AA0C-4000-8224-72CAED52E2E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preprocessing", "Preprocessing\Preprocessing.csproj", "{31D49DFC-3C0E-4799-AFDC-A6560A3821E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosineSimilary", "Algorithms\CosineSimilary\CosineSimilary.csproj", "{7E727869-115F-4B1F-A902-B9062167091C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepLearning", "Algorithms\DeepLearning\DeepLearning.csproj", "{2970D404-44A0-4E8A-83A6-03CBC3D5A134}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{628440A6-78B9-41E8-9831-0006D9F94791}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,26 +26,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8414B29E-B92B-4DFB-B7F2-6D121BE16118}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C31D4850-CA95-4335-B62A-84F8631EAC67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E630A90C-30DE-43BC-9393-830B78BBA38E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E049B6FA-A427-4D1E-9B5A-BE3BB217569A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79A66BBA-AA0C-4000-8224-72CAED52E2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79A66BBA-AA0C-4000-8224-72CAED52E2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79A66BBA-AA0C-4000-8224-72CAED52E2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79A66BBA-AA0C-4000-8224-72CAED52E2E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D49DFC-3C0E-4799-AFDC-A6560A3821E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D49DFC-3C0E-4799-AFDC-A6560A3821E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D49DFC-3C0E-4799-AFDC-A6560A3821E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D49DFC-3C0E-4799-AFDC-A6560A3821E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E727869-115F-4B1F-A902-B9062167091C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E727869-115F-4B1F-A902-B9062167091C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E727869-115F-4B1F-A902-B9062167091C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E727869-115F-4B1F-A902-B9062167091C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{628440A6-78B9-41E8-9831-0006D9F94791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{628440A6-78B9-41E8-9831-0006D9F94791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{628440A6-78B9-41E8-9831-0006D9F94791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{628440A6-78B9-41E8-9831-0006D9F94791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
