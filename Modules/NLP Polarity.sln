@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{79A66BBA-AA0C-4000-8224-72CAED52E2E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preprocessing", "Preprocessing\Preprocessing.csproj", "{31D49DFC-3C0E-4799-AFDC-A6560A3821E6}"
@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepLearning", "Algorithms\
 	ProjectSection(ProjectDependencies) = postProject
 		{79A66BBA-AA0C-4000-8224-72CAED52E2E7} = {79A66BBA-AA0C-4000-8224-72CAED52E2E7}
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{628440A6-78B9-41E8-9831-0006D9F94791}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +40,6 @@ Global
 		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2970D404-44A0-4E8A-83A6-03CBC3D5A134}.Release|Any CPU.Build.0 = Release|Any CPU
-		{628440A6-78B9-41E8-9831-0006D9F94791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{628440A6-78B9-41E8-9831-0006D9F94791}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{628440A6-78B9-41E8-9831-0006D9F94791}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{628440A6-78B9-41E8-9831-0006D9F94791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
