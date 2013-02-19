@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -7,13 +8,24 @@ namespace NaturalLanguageProcessing.Polarity.Preprocessing
 {
     public class Reader
     {
-        public Reader(string data)
+        string path;
+
+        public Reader(string file)
         {
+            path = file;
         }
 
         public string[] Tokenize()
         {
-            return null;
+            LinkedList<string> tweets = new LinkedList<string>();
+            using (StreamReader sr = new StreamReader(path))
+            {
+                while (sr.Peek() >= 0)
+                {
+                    tweets.AddLast(sr.ReadLine());
+                }
+            }
+            return tweets.ToArray();
         }
     }
 }
