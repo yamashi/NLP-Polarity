@@ -2,8 +2,8 @@
 
 namespace NaturalLanguageProcessing.Polarity.Common
 {
-    public interface IAlgorithmAbstractFactory
+    public interface IAlgorithmFactory
     {
-        IAlgorithm Instanciate();
+        IAlgorithm NewInstance();
     }
 }
