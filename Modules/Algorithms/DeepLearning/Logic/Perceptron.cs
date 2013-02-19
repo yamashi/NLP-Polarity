@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
-    class Perceptron
+    public class Perceptron
     {
-        public static readonly float LearningRate = 0.1f;
+        public static readonly float LearningRate = 100f;
 
         private uint size;
         private float[] weights;
@@ -23,18 +23,14 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
             weights = new float[this.size];
             for (var i = 0; i < this.size; ++i)
             {
-                weights[i] = (float)Global.random.NextDouble();
+                weights[i] = (float)Global.random.NextDouble() - 0.5f;
             }
         }
 
         public double ForwardPropagate(float[] inputs)
         {
-            if (inputs.Length < size)
-            {
-                if (inputs.Length - 1 < size)
-                    throw new Exceptions.InvalidArguments("Not enough inputs");
-                inputs = AddBias(inputs);
-            }
+            inputs = AddBias(inputs);
+
             double total = 0;
             for (var i = 0; i < size; ++i)
             {
@@ -51,21 +47,28 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 
         public void Learn(float[] inputs, float desiredOutput)
         {
+            inputs = AddBias(inputs);
             double output = ForwardPropagate(inputs);
             double error = desiredOutput - output;
 
             for (var i = 0; i < size; ++i)
             {
-                weights[i] += LearningRate * (float)error * weights[i]; 
+                weights[i] += LearningRate * (float)error * inputs[i]; 
             }
         }
 
         private float[] AddBias(float[] inputs)
         {
-            float[] ins = new float[size];
-            Array.Copy(inputs, ins, inputs.Length);
-            ins[size - 1] = 1.0f;
-            return ins;
+            if (inputs.Length < size)
+            {
+                if (inputs.Length < size - 1)
+                    throw new Exceptions.InvalidArguments("Not enough inputs");
+                float[] ins = new float[size];
+                Array.Copy(inputs, ins, inputs.Length);
+                ins[size - 1] = 1.0f;
+                return ins;
+            }
+            return inputs;
         }
     }
 }

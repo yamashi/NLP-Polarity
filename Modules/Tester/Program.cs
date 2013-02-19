@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
 using NaturalLanguageProcessing.Polarity.Preprocessing;
 
 namespace Tester
@@ -22,7 +23,18 @@ namespace Tester
                 Console.WriteLine(data[i]);
             }
 
-            
+            Perceptron per = new Perceptron(2);
+            for (int i = 0; i < 10000; ++i)
+            {
+                per.Learn(new float[] { 1, 0 }, 1);
+                per.Learn(new float[] { 0, 1 }, -1);
+                per.Learn(new float[] { 1, 1 }, -1);
+                per.Learn(new float[] { 0, 0 }, -1);
+            }
+            Console.WriteLine(per.ForwardPropagate(new float[] { 1, 0 }));
+            Console.WriteLine(per.ForwardPropagate(new float[] { 0, 1 }));
+            Console.WriteLine(per.ForwardPropagate(new float[] { 1, 1 }));
+            Console.WriteLine(per.ForwardPropagate(new float[] { 0, 0 }));
 
             Console.ReadKey();
         }
