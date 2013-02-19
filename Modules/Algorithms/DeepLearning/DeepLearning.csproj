@@ -39,6 +39,11 @@
   <ItemGroup>
     <Compile Include="DeepLearningAlgorithm.cs" />
     <Compile Include="DeepLearningAlgorithmFactory.cs" />
+    <Compile Include="Exceptions\InvalidArguments.cs" />
+    <Compile Include="Logic\Global.cs" />
+    <Compile Include="Logic\Layer.cs" />
+    <Compile Include="Logic\MultiLayerPerceptron.cs" />
+    <Compile Include="Logic\Perceptron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
