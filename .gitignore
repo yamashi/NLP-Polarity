@@ -9,3 +9,6 @@ Modules/Algorithms/DeepLearning/bin/
 Modules/Algorithms/DeepLearning/obj/
 Modules/WebApplication/bin/
 Modules/WebApplication/obj/
+Bin/*
+Modules/Tester/obj*
+*.opensdf
