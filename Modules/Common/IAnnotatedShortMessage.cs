@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Common
 {
-    interface IAnnotatedShortMessage : IShortMessage
+    public interface IAnnotatedShortMessage : IShortMessage
     {
         Polarity Polarity { get; set; }
     }

@@ -6,7 +6,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning
 {
     class DeepLearningAlgorithmFactory : IAlgorithmFactory
     {
-        public IAlgorithm Instanciate()
+        public IAlgorithm NewInstance()
         {
             throw new NotImplementedException();
         }
