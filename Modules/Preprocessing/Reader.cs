@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Preprocessing
 {
-    class Reader
+    public class Reader
     {
         public Reader(string data)
         {
