@@ -7,7 +7,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
     interface Layer
     {
-        public float[] ForwardPropagate(float[] inputs);
-        public float[] BackPropagate(float[] inputs);
+        float[] ForwardPropagate(float[] inputs);
+        float[] BackPropagate(float[] inputs);
     }
 }
