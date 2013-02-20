@@ -12,3 +12,4 @@ Modules/WebApplication/obj/
 Bin/*
 Modules/Tester/obj*
 *.opensdf
+*.sdf

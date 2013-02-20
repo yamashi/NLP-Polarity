@@ -7,7 +7,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
     public class Perceptron
     {
-        public static readonly float LearningRate = 100f;
+        public static readonly float LearningRate = 0.1f;
 
         private uint size;
         private float[] weights;

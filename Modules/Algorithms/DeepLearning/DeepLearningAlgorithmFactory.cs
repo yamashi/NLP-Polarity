@@ -8,7 +8,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning
     {
         public IAlgorithm NewInstance()
         {
-            throw new NotImplementedException();
+            return new DeepLearningAlgorithm();
         }
     }
 }
