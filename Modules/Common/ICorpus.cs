@@ -3,11 +3,7 @@ using System.Collections.Generic;
 
 namespace NaturalLanguageProcessing.Polarity.Common
 {
-    public interface ICorpus<MessageType> : ISet<MessageType> where MessageType : IShortMessage
-    {
-    }
-
-    public interface ICorpus : ICorpus<IShortMessage>
+    public interface ICorpus : IEnumerable<IShortMessage>
     {
     }
 
@@ -15,7 +11,7 @@ namespace NaturalLanguageProcessing.Polarity.Common
     {
     }
 
-    public interface IAnnotatedCorpus : ICorpus<IAnnotatedShortMessage>
+    public interface IAnnotatedCorpus : ICorpus, IEnumerable<IAnnotatedShortMessage>
     {
         Distribution GetDistribution();
     }
