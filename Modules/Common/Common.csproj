@@ -38,12 +38,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotatedCorpus.cs" />
+    <Compile Include="AnnotatedCorpusBuilder.cs" />
     <Compile Include="AnnotatedShortMessage.cs" />
     <Compile Include="Corpus.cs" />
+    <Compile Include="CorpusBuilder.cs" />
     <Compile Include="IAnnotatedShortMessage.cs" />
     <Compile Include="ICorpus.cs" />
     <Compile Include="IAlgorithm.cs" />
     <Compile Include="IAlgorithmFactory.cs" />
+    <Compile Include="ICorpusBuilder.cs" />
     <Compile Include="IShortMessage.cs" />
     <Compile Include="Polarity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

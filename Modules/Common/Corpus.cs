@@ -7,9 +7,9 @@ namespace NaturalLanguageProcessing.Polarity.Common
     {
         private ISet<IShortMessage> _impl;
 
-        public Corpus()
+        internal Corpus(ISet<IShortMessage> messages)
         {
-            _impl = null;
+            _impl = messages;
         }
 
         public IEnumerator<IShortMessage> GetEnumerator()

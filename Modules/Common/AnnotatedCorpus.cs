@@ -9,9 +9,9 @@ namespace NaturalLanguageProcessing.Polarity.Common
     {
         private ISet<IAnnotatedShortMessage> _impl;
 
-        public AnnotatedCorpus()
+        internal AnnotatedCorpus(ISet<IAnnotatedShortMessage> messages)
         {
-            _impl = null;
+            _impl = messages;
         }
 
         public Distribution GetDistribution()
