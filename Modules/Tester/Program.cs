@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
-using NaturalLanguageProcessing.Polarity.Preprocessing;
 
 namespace Tester
 {
@@ -13,7 +13,7 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            Reader reader = new Reader("hollande_train_1.txt");
+            /*Reader reader = new Reader("hollande_train_1.txt");
             var tweets = reader.Tokenize();
             Parser parser = new Parser(tweets[8442]);
             var data = parser.Parse();
@@ -22,19 +22,31 @@ namespace Tester
             {
                 Console.WriteLine(data[i]);
             }
+            */
 
-            Perceptron per = new Perceptron(2);
-            for (int i = 0; i < 100000; ++i)
-            {
-                per.Learn(new float[] { 1, 0 }, 1);
-                per.Learn(new float[] { 0, 1 }, 1);
-                per.Learn(new float[] { 1, 1 }, 1);
-                per.Learn(new float[] { 0, 0 }, -1);
-            }
-            Console.WriteLine(per.NormalizeOutput(new float[] { 1, 0 }));
-            Console.WriteLine(per.NormalizeOutput(new float[] { 0, 1 }));
-            Console.WriteLine(per.NormalizeOutput(new float[] { 1, 1 }));
-            Console.WriteLine(per.NormalizeOutput(new float[] { 0, 0 }));
+            DeepLearningAlgorithmFactory factory = new DeepLearningAlgorithmFactory();
+            var algorithm = factory.NewInstance();
+
+            WordMatrix matrix = new WordMatrix();
+
+            matrix.AddFeature("Proximity1D");
+            matrix.AddFeature("Proximity2D");
+            matrix.AddFeature("Polarity");
+            matrix.AddFeature("Coherence");
+
+            RecursiveNetwork network = new RecursiveNetwork(matrix);
+            network.BuildNetwork();
+
+            string exampleString = "there is a cat";
+            string[] words = exampleString.Split(' ');
+
+            for (int i = 0; i < 100; ++i )
+                network.Train(words, 1.0);
+            
+            Console.WriteLine(matrix);
+
+            algorithm.Learn(null);
+            algorithm.Analyse(null);
 
             Console.ReadKey();
         }

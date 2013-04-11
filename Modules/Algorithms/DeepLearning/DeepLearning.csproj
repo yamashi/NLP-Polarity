@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NeuroBox, Version=3.0.4849.1606, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\NeuroBox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,10 +44,11 @@
     <Compile Include="DeepLearningAlgorithm.cs" />
     <Compile Include="DeepLearningAlgorithmFactory.cs" />
     <Compile Include="Exceptions\InvalidArguments.cs" />
-    <Compile Include="Logic\Global.cs" />
-    <Compile Include="Logic\Layer.cs" />
-    <Compile Include="Logic\MultiLayerPerceptron.cs" />
-    <Compile Include="Logic\Perceptron.cs" />
+    <Compile Include="Logic\LogicGate.cs" />
+    <Compile Include="Logic\Normalize.cs" />
+    <Compile Include="Logic\RecursiveNetwork.cs" />
+    <Compile Include="Logic\Word.cs" />
+    <Compile Include="Logic\WordMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +56,9 @@
       <Project>{79a66bba-aa0c-4000-8224-72caed52e2e7}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\NeuroBox.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

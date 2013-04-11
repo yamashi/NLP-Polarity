@@ -4,7 +4,7 @@ using NaturalLanguageProcessing.Polarity.Common;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning
 {
-    class DeepLearningAlgorithmFactory : IAlgorithmFactory
+    public class DeepLearningAlgorithmFactory : IAlgorithmFactory
     {
         public IAlgorithm NewInstance()
         {

@@ -13,3 +13,9 @@ Modules/Tester/bin/
 Modules/Tester/obj/
 *.opensdf
 *.sdf
+Bin/
+Modules/CoreService/obj/
+Modules/CosineModule/obj/
+Modules/DeepLearningModule/obj/
+Modules/PreprocessingModule/obj/
+Modules/UnitTest/obj/
