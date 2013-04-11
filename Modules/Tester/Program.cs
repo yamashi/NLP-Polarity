@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,26 +29,49 @@ namespace Tester
 
             WordMatrix matrix = new WordMatrix();
 
-            matrix.AddFeature("Proximity1D");
-            matrix.AddFeature("Proximity2D");
+            matrix.AddFeature("Coherence1D");
+            matrix.AddFeature("Coherence2D");
             matrix.AddFeature("Polarity");
-            matrix.AddFeature("Coherence");
 
             RecursiveNetwork network = new RecursiveNetwork(matrix);
             network.BuildNetwork();
 
-            string exampleString = "there is a cat";
-            string[] words = exampleString.Split(' ');
+            string[] samples = new string[]
+            {
+                "I like poneys",
+                "I hate poneys",
+                "Poneys are cool",
+                "Poneys are pretty",
+                "I like flowers",
+                "You like flowers",
+                "I enjoy cool poneys"
+            };
 
-            for (int i = 0; i < 100; ++i )
-                network.Train(words, 1.0);
-            
+            Train(network, samples);
+
+            double[] ret = network.Think("I like cool poneys");
+
             Console.WriteLine(matrix);
 
-            algorithm.Learn(null);
-            algorithm.Analyse(null);
+            /*algorithm.Learn(null);
+            algorithm.Analyse(null);*/
 
             Console.ReadKey();
+        }
+
+        static void Train(RecursiveNetwork net, string[] samples)
+        {
+            ArrayList words = new ArrayList();
+
+            for (int i = 0; i < samples.Length; ++i)
+            {
+                string[] w = samples[i].Split(' ');
+                words.Add(w);
+            }
+
+            for (int j = 0; j < 50; ++j )
+                for (int i = 0; i < words.Count; ++i)
+                    net.Train((string[])words[i], 1.0);
         }
     }
 }

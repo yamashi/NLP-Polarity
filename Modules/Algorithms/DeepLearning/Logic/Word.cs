@@ -6,12 +6,14 @@ using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
-    public class Word
+    public class SpeechEntity
     {
         private double[] _features;
+        private string _entity;
 
-        public Word(WordMatrix wordMatrix)
+        public SpeechEntity(WordMatrix wordMatrix, string entity)
         {
+            _entity = entity;
             _features = new double[wordMatrix.Features.Count];
 
             Random random = new Random((int)Stopwatch.GetTimestamp());
@@ -21,17 +23,43 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
             }
         }
 
+        public SpeechEntity(double[] features, string entity)
+        {
+            _entity = entity;
+            _features = features;
+        }
+
         public double this[int i]
         {
             get
             {
                 return _features[i];
             }
+            set
+            {
+                _features[i] = value;
+            }
+        }
+
+        public double[] Features
+        {
+            get
+            {
+                return _features;
+            }
+        }
+
+        public string Entity
+        {
+            get
+            {
+                return _entity;
+            }
         }
 
         public override string ToString()
         {
-            string ret = "{ ";
+            string ret = _entity + " : { ";
             bool first = true;
             for (int i = 0; i < _features.Length; ++i)
             {

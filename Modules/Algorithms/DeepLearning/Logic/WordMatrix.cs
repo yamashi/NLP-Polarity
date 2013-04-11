@@ -7,7 +7,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
     public class WordMatrix
     {
-        private Dictionary<string, Word> _matrix = new Dictionary<string, Word>();
+        private Dictionary<string, SpeechEntity> _matrix = new Dictionary<string, SpeechEntity>();
         private Dictionary<string, int> _featureMap = new Dictionary<string, int>();
 
         public void AddFeature(string name)
@@ -23,10 +23,10 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
         public void Add(string word)
         {
             if(!_matrix.ContainsKey(word))
-                _matrix.Add(word, new Word(this));
+                _matrix.Add(word, new SpeechEntity(this, word));
         }
 
-        public Word this[string word]
+        public SpeechEntity this[string word]
         {
             get
             {
@@ -35,7 +35,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
             }
         }
 
-        public Dictionary<string, Word> Matrix
+        public Dictionary<string, SpeechEntity> Matrix
         {
             get { return _matrix; }
         }
