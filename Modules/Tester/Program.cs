@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
+using System.Collections.Generic;
 
 namespace Tester
 {
@@ -24,7 +25,29 @@ namespace Tester
             }
             */
 
-            DeepLearningAlgorithmFactory factory = new DeepLearningAlgorithmFactory();
+            GriotNet.NeuralNetwork net = new GriotNet.NeuralNetwork();
+
+            net.AddLayer(2);
+            net.AddLayer(6);
+            net.AddLayer(1);
+
+            List<double[]> ex = new List<double[]>();
+            List<double[]> res = new List<double[]>();
+
+            ex.Add(new double[] { -1, -1 }); res.Add(new double[] { -1 });
+            ex.Add(new double[] { -1, 1 }); res.Add(new double[] { 1 });
+            ex.Add(new double[] { 1, -1 }); res.Add(new double[] { 1 });
+            ex.Add(new double[] { 1, 1 }); res.Add(new double[] { -1 });
+
+            for (int i = 0; i < 40000; ++i)
+            {
+                net.Learn(ex, res, 0.3);
+                double error = net.EvaluateQuadraticError(ex, res);
+                Console.WriteLine("Error {0}", error);
+            }
+
+
+            /*DeepLearningAlgorithmFactory factory = new DeepLearningAlgorithmFactory();
             var algorithm = factory.NewInstance();
 
             WordMatrix matrix = new WordMatrix();
