@@ -26,12 +26,14 @@ namespace GriotNet
 
         public Layer(UInt32 pDendrites, UInt32 pNeuronCount)
         {
-            mDendrites = pDendrites;
-            mNeuronCount = pNeuronCount;
+            mDendrites = pDendrites + 1;
+            mNeuronCount = pNeuronCount + 1;
 
-            mOutputs = new double[pNeuronCount];
+            mOutputs = new double[mNeuronCount];
 
-            for (var i = 0; i < pNeuronCount; ++i)
+            Console.WriteLine("Layer created with {0} dendrites per neuron and {1} neurons.", pDendrites, pNeuronCount);
+
+            for (var i = 0; i < mNeuronCount; ++i)
                 mNeurons.Add(new Neuron(pDendrites));
         }
 

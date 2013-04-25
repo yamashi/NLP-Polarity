@@ -28,7 +28,7 @@ namespace GriotNet
 
         public double[] Evaluate(double[] inputs)
         {
-            double[] outputs = new double[inputs.Length];
+            double[] outputs = null;
 
             for (int i = 0; i < mLayers.Count; ++i)
             {
@@ -76,7 +76,7 @@ namespace GriotNet
                     // Layer is the output
                     if (c == mLayers.Count - 1) 
                     {
-					    mGradient[c][i] = 2 * (mLayers[c].Outputs[i] - pResults[0])  * mLayers[c].GetActivationDerivativeFor(i);
+					    mGradient[c][i] = 2 * (mLayers[c].Outputs[i] - pResults[0]) * mLayers[c].GetActivationDerivativeFor(i);
 				    }
 				    else 
                     {
@@ -139,7 +139,8 @@ namespace GriotNet
         {
 	        ResetWeightsDelta();
 
-	        for (int l = 0; l < examples.Count; ++l) {
+	        for (int l = 0; l < examples.Count; ++l) 
+            {
 		        Evaluate(examples[l]);
 		        EvaluateGradients(results[l]);
 		        EvaluateWeightsDelta();
@@ -154,8 +155,9 @@ namespace GriotNet
         {
             double e = double.PositiveInfinity;
 
-            while (e > 0.001f)
+            //while (e > 0.001f)
             {
+                //Console.WriteLine(e);
                 BatchBackPropagation(examples, results, pLearningRate);
                 e = EvaluateQuadraticError(examples, results);
             }

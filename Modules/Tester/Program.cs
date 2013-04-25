@@ -46,6 +46,9 @@ namespace Tester
                 Console.WriteLine("Error {0}", error);
             }
 
+            var resu = net.Evaluate(new double[] { -1.0, 1.0 });
+            Console.WriteLine("Result {0}", resu[1]);
+
 
             /*DeepLearningAlgorithmFactory factory = new DeepLearningAlgorithmFactory();
             var algorithm = factory.NewInstance();

@@ -16,7 +16,11 @@ namespace GriotNet
             mWeights = new double[pNeuronDendrites];
 
             for (var i = 0; i < pNeuronDendrites; ++i)
-                mWeights[i] = Randomizer.RandNumber();
+            {
+                double r = Randomizer.RandNumber() - 0.5f;
+                mWeights[i] = r;
+                Console.WriteLine(r);
+            }
         }
 
         public double Activate(double[] inputs)
@@ -28,14 +32,15 @@ namespace GriotNet
                 mActivation += inputs[i] * mWeights[i];
             }
 
-            return Math.Tanh(mActivation);
+            return 2.0f / (1.0f + Math.Exp((-mActivation) * LAMBDA)) - 1.0f;
         }
 
         public double ActivationDerivative
         {
             get
             {
-                return 1 - Math.Pow(Math.Tan(mActivation), 2.0);
+                double expmlx = Math.Exp(LAMBDA * mActivation);
+                return 2 * LAMBDA * expmlx / ((1 + expmlx) * (1 + expmlx));
             }
         }
 
@@ -46,5 +51,7 @@ namespace GriotNet
                 return mWeights;
             }
         }
+
+        public static double LAMBDA = 1.5;
     }
 }
