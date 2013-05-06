@@ -11,31 +11,47 @@ public interface IService
 {
 
 	[OperationContract]
-	string GetData(int value);
-
-	[OperationContract]
-	CompositeType GetDataUsingDataContract(CompositeType composite);
-
-	// TODO: Add your service operations here
+	List<TweetEntry> Compute(string corpus);
 }
 
 [DataContract]
-public class CompositeType
+public class Corpus
 {
-	bool boolValue = true;
-	string stringValue = "Hello ";
+    List<TweetEntry> entries;
+    List<string> words;
+
+    [DataMember]
+    public List<TweetEntry> Entries
+    {
+        get { return entries; }
+        set { entries = value; }
+    }
+
+    [DataMember]
+    public List<string> Words
+    {
+        get { return words; }
+        set { words = value; }
+    }
+};
+
+[DataContract]
+public class TweetEntry
+{
+	float normalizedOutput;
+	string sentence;
 
 	[DataMember]
-	public bool BoolValue
+    public float NormalizedOutput
 	{
-		get { return boolValue; }
-		set { boolValue = value; }
+        get { return normalizedOutput; }
+        set { normalizedOutput = value; }
 	}
 
 	[DataMember]
-	public string StringValue
+    public string Sentence
 	{
-		get { return stringValue; }
-		set { stringValue = value; }
+        get { return sentence; }
+        set { sentence = value; }
 	}
 }
