@@ -8,7 +8,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.CosineSimilarity
     {
         public IAlgorithm NewInstance()
         {
-            throw new NotImplementedException();
+            return new CosineSimilarityAlgorithm();
         }
     }
 }

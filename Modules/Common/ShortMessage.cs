@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Common
 {
-    class ShortMessage : IShortMessage
+    public class ShortMessage : IShortMessage
     {
         private IDictionary<string, object> _metadata;
 

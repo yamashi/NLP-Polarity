@@ -5,6 +5,7 @@ namespace NaturalLanguageProcessing.Polarity.Common
 {
     public interface ICorpus : IEnumerable<IShortMessage>
     {
+        uint Count { get; }
     }
 
     public struct Distribution

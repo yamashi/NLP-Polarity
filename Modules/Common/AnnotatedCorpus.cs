@@ -14,6 +14,14 @@ namespace NaturalLanguageProcessing.Polarity.Common
             _impl = messages;
         }
 
+        public uint Count
+        {
+            get
+            {
+                return (uint)_impl.Count;
+            }
+        }
+
         public Distribution GetDistribution()
         {
             throw new NotImplementedException();
