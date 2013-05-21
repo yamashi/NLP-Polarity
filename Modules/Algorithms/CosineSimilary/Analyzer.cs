@@ -102,6 +102,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.CosineSimilarity
         private double Gini(string word)
         {
             // TODO
+            return 0.0;
         }
     }
 }
