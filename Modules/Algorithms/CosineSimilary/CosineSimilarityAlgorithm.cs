@@ -7,6 +7,7 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.CosineSimilarity
 {
     class CosineSimilarityAlgorithm : IAlgorithm
     {
+        static private char[] separator = " ".ToCharArray();
         /* Pour chaque terme, le nombre de fois où il apparait dans un message marqué par une catégorie */
         private IDictionary<string, uint> positive;
         private IDictionary<string, uint> negative;
@@ -49,8 +50,6 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.CosineSimilarity
 
         private void LearnMessage(IAnnotatedShortMessage message, IDictionary<string, uint> category)
         {
-            char[] separator = new char[1];
-            separator[0] = ' ';
 
             ISet<string> words = new HashSet<string>(message.RawContent.Split(separator));
 
