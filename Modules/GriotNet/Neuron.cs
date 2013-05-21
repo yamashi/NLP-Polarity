@@ -19,7 +19,6 @@ namespace GriotNet
             {
                 double r = Randomizer.RandNumber() - 0.5f;
                 mWeights[i] = r;
-                Console.WriteLine(r);
             }
         }
 

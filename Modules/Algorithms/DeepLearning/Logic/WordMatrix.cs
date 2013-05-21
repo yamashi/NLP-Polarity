@@ -7,23 +7,16 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
     public class WordMatrix
     {
+        private UInt32 _featureCount;
         private Dictionary<string, SpeechEntity> _matrix = new Dictionary<string, SpeechEntity>();
-        private Dictionary<string, int> _featureMap = new Dictionary<string, int>();
 
-        public void AddFeature(string name)
+        public WordMatrix(UInt32 featureCount)
         {
-            _featureMap.Add(name, _featureMap.Count);
-        }
-
-        public void Build()
-        {
-            _matrix.Clear();
+            _featureCount = featureCount;
         }
 
         public void Add(string word)
         {
-            if(!_matrix.ContainsKey(word))
-                _matrix.Add(word, new SpeechEntity(this, word));
         }
 
         public SpeechEntity this[string word]
@@ -35,33 +28,25 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
             }
         }
 
+        public UInt32 FeatureCount
+        {
+            get
+            {
+                return _featureCount;
+            }
+        }
+
         public Dictionary<string, SpeechEntity> Matrix
         {
             get { return _matrix; }
         }
 
-        public Dictionary<string, int> Features
-        {
-            get { return _featureMap; }
-        }
-
         public override string ToString() 
         {
-            string ret = "WordMatrix\n";
-            ret += "Features : " + Features.Count + "\n";
-
-            int i = 0;
-            foreach(var e in Features)
-            {
-                ret += "Feature #" + i + " = " + e.Key + "\n";
-                ++i;
-            }
-
-            ret += "\nWord count : " + Matrix.Count + "\n";
+            string ret = "Word count : " + Matrix.Count + "\n";
             foreach (var e in Matrix)
             {
                 ret += "\"" + e.Key + "\"" + " = " + e.Value + "\n";
-                ++i;
             }
             return ret;
         }

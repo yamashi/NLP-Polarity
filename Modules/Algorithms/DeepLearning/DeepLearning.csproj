@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning</RootNamespace>
     <AssemblyName>NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NeuroBox, Version=3.0.4849.1606, Culture=neutral, processorArchitecture=MSIL">
@@ -47,7 +50,8 @@
     <Compile Include="Logic\LogicGate.cs" />
     <Compile Include="Logic\Normalize.cs" />
     <Compile Include="Logic\RecursiveNetwork.cs" />
-    <Compile Include="Logic\Word.cs" />
+    <Compile Include="Logic\SpeechClass.cs" />
+    <Compile Include="Logic\SpeechEntity.cs" />
     <Compile Include="Logic\WordMatrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,6 +59,10 @@
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{79a66bba-aa0c-4000-8224-72caed52e2e7}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GriotNet\GriotNet.csproj">
+      <Project>{acb8ca90-a15e-4bcf-a94e-517e47018e79}</Project>
+      <Name>GriotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

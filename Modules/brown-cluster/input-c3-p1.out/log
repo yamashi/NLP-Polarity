@@ -1,0 +1,47 @@
+main: d:\Users\yamashi\Documents\Development\yamashi\NLP-Polarity\Modules\brown-cluster\wcluster.exe --text input.txt --c 3 {
+  Thu Apr 25 14:11:29 2013 on ðHˆ (0MHz)
+  read_text() {
+    read_text(): input.txt {
+      StrDB::read(): input.txt.strdb, one_way=1 [0s, cumulative 0s]
+      Reading from input.txt.int [0s, cumulative 0s]
+    } [0s, cumulative 0s]
+    Counting phrases {
+      11 distinct phrases of length 1, keeping 11 which occur at least 1 times
+    } [0s, cumulative 0s]
+    Finding left/right phrases [0s, cumulative 0s]
+    Text length: 22, 11 phrases, 11 words
+  } [0s, cumulative 0s]
+  create_initial_clusters() {
+    Sorting 11 phrases by frequency
+    Selecting top 3 phrases to be initial clusters
+  } [0s, cumulative 0s]
+  Writing to input-c3-p1.out/collocs
+  do_clustering() {
+    compute_L2() {
+      Computing L2 [0s, cumulative 0s]
+    } [0s, cumulative 0s]
+    Stage 1 {
+      report_mem_usage() [0s, cumulative 0s]
+      Merging phrase: 3/11: 0(Poneys) [0s, cumulative 0s]
+      Merging phrase: 4/11: 3(are) [0s, cumulative 0s]
+      Merging phrase: 5/11: 6(cool) [0s, cumulative 0s]
+      Merging phrase: 6/11: 9(flowers) [0s, cumulative 0s]
+      Merging phrase: 7/11: 1(hate) [0s, cumulative 0s]
+      Merging phrase: 8/11: 2(enjoy) [0s, cumulative 0s]
+      Merging phrase: 9/11: 4(pretty) [0s, cumulative 0s]
+      Merging phrase: 10/11: 5(You) [0s, cumulative 0s]
+    } [0s, cumulative 0s]
+    compute_cluster_distribs() [0s, cumulative 0s]
+    Stage 2 {
+      report_mem_usage() [0s, cumulative 0s]
+      Clustering: 0/2 [0s, cumulative 0s]
+      Clustering: 1/2 [0s, cumulative 0s]
+    } [0s, cumulative 0s]
+    Done: 1 cluster left: mutual info = 3.33067e-016
+    report_mem_usage() {
+      Total: 0
+    } [0s, cumulative 0s]
+  } [0s, cumulative 0s]
+  Writing cluster paths to input-c3-p1.out/paths
+  Writing cluster map to input-c3-p1.out/map
+} [0s]

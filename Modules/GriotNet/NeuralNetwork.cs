@@ -60,10 +60,34 @@ namespace GriotNet
 
             for (int i = 0; i < examples.Count; ++i)
             {
+               // Console.WriteLine(e);
                 e += EvaluateError(Evaluate(examples[i]), results[i]);
             }
 
             return e;
+        }
+
+        private void EvaluateOutputGradients(Layer pLayer, double[] pResults, double[] gradient)
+        {
+            // Start at 1 because 0 is the bias and thus no error on this one.
+            for (int i = 1; i < pLayer.Size; ++i) 
+            {
+                gradient[i] = 2 * (pLayer.Outputs[i] - pResults[i - 1]) * pLayer.GetActivationDerivativeFor(i);
+            }
+        }
+
+        private void EvaluateHiddenGradients(Layer pLayer, Layer pPreviousLayer, double[] pResults, double[] gradient, double[] previousGradient)
+        {
+            for (int i = 0; i < pLayer.Size; ++i) 
+            {
+			    double sum = 0;
+
+                // sum 
+			    for (int k = 1; k < pPreviousLayer.Size; ++k)
+				    sum += pPreviousLayer.GetWeightsFor(k)[i] * previousGradient[k];
+
+			    gradient[i] = pLayer.GetActivationDerivativeFor(i) * sum;
+            }
         }
 
 	    private void EvaluateGradients(double[] pResults)
@@ -71,24 +95,15 @@ namespace GriotNet
 		    // for each neuron in each layer
 		    for (int c = mLayers.Count - 1; c >= 0; --c) 
             {
-			    for (int i = 0; i < mLayers[c].Size; ++i) 
+                // Layer is the output
+                if (c == mLayers.Count - 1) 
                 {
-                    // Layer is the output
-                    if (c == mLayers.Count - 1) 
-                    {
-					    mGradient[c][i] = 2 * (mLayers[c].Outputs[i] - pResults[0]) * mLayers[c].GetActivationDerivativeFor(i);
-				    }
-				    else 
-                    {
-					    double sum = 0;
-
-                        // sum 
-					    for (int k = 1; k < mLayers[c+1].Size; ++k)
-						    sum += mLayers[c+1].GetWeightsFor(k)[i] * mGradient[c+1][k];
-
-					    mGradient[c][i] = mLayers[c].GetActivationDerivativeFor(i) * sum;
-				    }
-			    }
+                    EvaluateOutputGradients(mLayers[c], pResults, mGradient[c]);
+				}
+				else 
+                {
+                    EvaluateHiddenGradients(mLayers[c], mLayers[c + 1], pResults, mGradient[c], mGradient[c + 1]);
+                }
 		    }
 	    }
 
@@ -100,8 +115,11 @@ namespace GriotNet
 			    for (int i = 0; i < mLayers[c].Size; ++i) 
                 {
 				    double[] weights = mLayers[c].GetWeightsFor(i);
-				    for (int j = 0; j < weights.Length; ++j)
-				        mWeightDelta[c][i,j] = 0;
+
+                    for (int j = 0; j < weights.Length; ++j)
+                    {
+                        mWeightDelta[c][i, j] = 0;
+                    }
 	            }		
 		    }
 	    }
@@ -114,22 +132,29 @@ namespace GriotNet
 			    for (int i = 0; i < mLayers[c].Size; ++i) 
                 {
 				    double[] weights = mLayers[c].GetWeightsFor(i);
-				    for (int j = 0; j < weights.Length; ++j)
-					    mWeightDelta[c][i , j] += mGradient[c][i] * mLayers[c-1].Outputs[j];
+                    for (int j = 0; j < weights.Length; ++j)
+                    {
+                        mWeightDelta[c][i, j] += mGradient[c][i] * mLayers[c - 1].Outputs[j];
+                    }
 			    }
 		    }
 	    }
 
 	    private void UpdateWeights(double pLearningRate)
 	    {
-		    for (int c = 0; c < mLayers.Count; ++c) 
+            int c = 0;
+		    foreach(Layer layer in mLayers)
             {
-			    for (int i = 0; i < mLayers[c].Size; ++i) 
+                for (int i = 0; i < layer.Size; ++i) 
                 {
-				    double[] weights = mLayers[c].GetWeightsFor(i);
-				    for (int j = 0; j < weights.Length; ++j)
-					    mLayers[c].GetWeightsFor(i)[j] = mLayers[c].GetWeightsFor(i)[j]	- (pLearningRate * mWeightDelta[c][i,j]);
+                    double[] weights = layer.GetWeightsFor(i);
+                    for (int j = 0; j < weights.Length; ++j)
+                    {
+                        weights[j] = weights[j] - (pLearningRate * mWeightDelta[c][i, j]);
+                        ++j;
+                    }
 	            }
+                ++c;
 		    }
 	    }
 
@@ -155,9 +180,8 @@ namespace GriotNet
         {
             double e = double.PositiveInfinity;
 
-            //while (e > 0.001f)
+            while (e > 0.001f)
             {
-                //Console.WriteLine(e);
                 BatchBackPropagation(examples, results, pLearningRate);
                 e = EvaluateQuadraticError(examples, results);
             }
