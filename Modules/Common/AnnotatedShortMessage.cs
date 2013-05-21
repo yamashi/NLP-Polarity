@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Common
 {
-    class AnnotatedShortMessage : ShortMessage, IAnnotatedShortMessage
+    public class AnnotatedShortMessage : ShortMessage, IAnnotatedShortMessage
     {
         public AnnotatedShortMessage(string rawContent, Polarity polarity) : base(rawContent)
         {

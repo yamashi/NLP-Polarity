@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace NaturalLanguageProcessing.Polarity.Common
 {
-    public interface ICorpusBuilder : ICollection<IShortMessage>
+    public interface ICorpusBuilder : ISet<IShortMessage>
     {
         ICorpus ToCorpus();
     }
 
-    public interface IAnnotatedCorpusBuilder : ICollection<IAnnotatedShortMessage>
+    public interface IAnnotatedCorpusBuilder : ISet<IAnnotatedShortMessage>
     {
         IAnnotatedCorpus ToCorpus();
     }

@@ -12,6 +12,14 @@ namespace NaturalLanguageProcessing.Polarity.Common
             _impl = messages;
         }
 
+        public uint Count
+        {
+            get
+            {
+                return (uint)_impl.Count;
+            }
+        }
+
         public IEnumerator<IShortMessage> GetEnumerator()
         {
             return _impl.GetEnumerator();

@@ -5,7 +5,7 @@ using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning
 {
-    class DeepLearningAlgorithm : IAlgorithm
+    public class DeepLearningAlgorithm : IAlgorithm
     {
        // private WordMatrix _matrix = new WordMatrix();
 
@@ -21,8 +21,9 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning
             Console.WriteLine(_matrix.Matrix["Jesus"]);*/
         }
 
-        public void Analyse(ICorpus corpus)
+        public IAnnotatedCorpus Analyse(ICorpus corpus)
         {
+            throw new NotImplementedException();
         }
     }
 }
