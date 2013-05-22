@@ -54,15 +54,56 @@ namespace Tester
             res.Add(result.ToArray().Concat(new double[] { expected }).ToArray());
         }
 
+        static void QueryWord(WordMatrix mat, string w)
+        {
+            Console.WriteLine("The word \"" + w + "\" is unknow");
+            Console.Write("Type the word's grammar type : ");
+                
+            switch(Console.ReadLine())
+            {
+                case "_NOUN_":
+                    Populate(mat, w, SpeechClass._NOUN_);
+                    break;
+                case "_VERB_":
+                    Populate(mat, w, SpeechClass._VERB_);
+                    break;
+                case "_ADJ_":
+                    Populate(mat, w, SpeechClass._ADJ_);
+                    break;
+                case "_DET_":
+                    Populate(mat, w, SpeechClass._DET_);
+                    break;
+                case "_ADP_":
+                    Populate(mat, w, SpeechClass._ADP_);
+                    break;
+                case "_PRON_":
+                    Populate(mat, w, SpeechClass._PRON_);
+                    break;
+                case "_CONJ_":
+                    Populate(mat, w, SpeechClass._CONJ_);
+                    break;
+            }
+        }
+
+        static void QueryWords(WordMatrix mat, string[] w)
+        {
+            foreach (var word in w)
+            {
+                if (mat[word] == null)
+                {
+                    QueryWord(mat, word);
+                }
+            }
+            
+        }
+
         static void Main(string[] args)
         {
-            WordMatrix mat = new WordMatrix();
+            WordMatrix mat = WordMatrix.Load("dic/en.ser");
             RecursiveNetwork net = new RecursiveNetwork(mat);
 
-            RawPopulate(mat);
-            VocabularyPopulate(mat);
-
             AddSample(mat, "_NOUN_", "_VERB_", SpeechEntity.Merge(mat["_NOUN_"], mat["_VERB_"]), 0.5);
+            AddSample(mat, "_PRON_", "_VERB_", SpeechEntity.Merge(mat["_NOUN_"], mat["_VERB_"]), 1.0);
             AddSample(mat, "_VERB_", "_VERB_", mat["_VERB_"], 1.0);
             AddSample(mat, "_DET_", "_NOUN_", mat["_NOUN_"], 0.9);
             AddSample(mat, "_DET_", "_ADJ_", mat["_DET_"], -1.0);
@@ -70,11 +111,30 @@ namespace Tester
             AddSample(mat, "_VERB_", "_DET_", mat["_VERB_"], -1.0);
             AddSample(mat, "_NOUN_", "_ADP_", mat["_NOUN_"], 0.5);
             AddSample(mat, "_ADP_", "_NOUN_", mat["_NOUN_"], 0.5);
+            AddSample(mat, "_NOUN_", "_CONJ_", mat["_NOUN_"], 0.8);
+            AddSample(mat, "_CONJ_", "_NOUN_", mat["_NOUN_"], 0.8);
 
             net.Train(ex, res);
-            net.Parse("The mean angry cat is eating the green mouse on the red dirty carpet");
 
-            Console.ReadKey();
+            while (true)
+            {
+                Console.Write("Type sentence : ");
+
+                string str = Console.ReadLine();
+
+                if(str == "QUIT")
+                    break;
+
+                string[] words = str.Split(" ".ToCharArray());
+                QueryWords(mat, words);
+
+                Console.WriteLine("");
+                net.Parse(str);
+                Console.WriteLine("");
+            }
+            //net.Parse("The mean angry cat is eating the green mouse on the red dirty carpet");
+
+            WordMatrix.Dump(mat, "dic/en.ser");
         }
     }
 }

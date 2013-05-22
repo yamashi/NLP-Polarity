@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
+    [DataContract]
     public class SpeechEntity
     {
+        [DataMember]
         private List<SpeechClass> speechClasses = new List<SpeechClass>();
+
+        [DataMember]
         private string entity;
 
         public SpeechEntity(string entity)
@@ -70,15 +75,17 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
                 arr[i] = -1.0;
             }
 
-            foreach (var e in firstEntity.speechClasses)
-            {
-                arr[(int)e] = 1.0;
-            }
+            if(firstEntity.speechClasses != null)
+                foreach (var e in firstEntity.speechClasses)
+                {
+                    arr[(int)e] = 1.0;
+                }
 
-            foreach (var e in secondEntity.speechClasses)
-            {
-                arr[(int)e + 10] = 1.0;
-            }
+            if (secondEntity.speechClasses != null)
+                foreach (var e in secondEntity.speechClasses)
+                {
+                    arr[(int)e + 10] = 1.0;
+                }
 
             return arr;
         }

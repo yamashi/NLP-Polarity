@@ -13,7 +13,6 @@ Modules/Tester/bin/
 Modules/Tester/obj/
 *.opensdf
 *.sdf
-Bin/
 Modules/CoreService/obj/
 Modules/CosineModule/obj/
 Modules/DeepLearningModule/obj/
@@ -21,3 +20,12 @@ Modules/PreprocessingModule/obj/
 Modules/UnitTest/obj/
 Modules/GriotNet/obj/
 *.sdf
+Modules/NgramFormatter/obj
+Modules/GriotNet/bin
+Modules/UnitTest/bin
+Bin/Dic/EN/
+Bin/*.dll
+*.pdb
+*.exe
+*.exe.config
+*.vshost.exe.manifest

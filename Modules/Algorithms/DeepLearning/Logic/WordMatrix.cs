@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
+    [DataContract]
+    [KnownType(typeof(SpeechEntity))]
     public class WordMatrix
     {
-        private Dictionary<string, SpeechEntity> _matrix = new Dictionary<string, SpeechEntity>();
+        [CollectionDataContract(Name = "dic", ItemName = "entry", KeyName = "word", ValueName = "speechEntry")]
+        public class WordEntries : Dictionary<string, SpeechEntity> { }
+
+        [DataMember(Name="dic")]
+        private WordEntries _matrix = new WordEntries();
 
         public WordMatrix()
         {
@@ -27,11 +36,50 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
             }
         }
 
+        public static void Dump(WordMatrix matrix, string path)
+        {
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Create);
+
+                XmlWriter xw = XmlWriter.Create(fs, new XmlWriterSettings { Indent = true });
+                var writer = XmlDictionaryWriter.CreateDictionaryWriter(xw);
+                DataContractSerializer ser = new DataContractSerializer(typeof(WordMatrix));
+                ser.WriteObject(writer, matrix);
+
+                writer.Close();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+           
+        }
+
+        public static WordMatrix Load(string path)
+        {
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Open);
+                var reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                var ser = new DataContractSerializer(typeof(WordMatrix));
+                WordMatrix matrix = (WordMatrix)ser.ReadObject(reader);
+                fs.Close();
+
+                return matrix;
+            }
+            catch { }
+
+            return new WordMatrix();
+            
+        }
+
         public SpeechEntity this[string word]
         {
             get
             {
-                Add(word, null);
+                if (!_matrix.ContainsKey(word))
+                    return null;
                 return _matrix[word];
             }
         }
