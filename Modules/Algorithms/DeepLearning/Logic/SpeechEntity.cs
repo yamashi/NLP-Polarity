@@ -41,13 +41,6 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 
         public override string ToString() 
         {
-            string str;/* = entity + " -> { ";
-            foreach (var e in speechClasses)
-            {
-                str += e.ToString() + " ; ";
-            }
-            str += " }";*/
-            
             return entity;
         }
 

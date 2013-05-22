@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace Tester
 {
@@ -59,22 +61,18 @@ namespace Tester
 
         static void Main(string[] args)
         {
-            /*Reader reader = new Reader("hollande_train_1.txt");
-            var tweets = reader.Tokenize();
-            Parser parser = new Parser(tweets[8442]);
-            var data = parser.Parse();
-
-            for(var i = 0; i < data.Length; ++i)
-            {
-                Console.WriteLine(data[i]);
-            }
-            */
-
             net.AddLayer(20);
             net.AddLayer(5);
             net.AddLayer(30);
             net.AddLayer(8);
             net.AddLayer(11);
+
+            DataContractSerializer x = new DataContractSerializer(net.GetType());
+
+            using (XmlWriter xw = XmlWriter.Create(Console.Out))
+            {
+                x.WriteObject(xw, net);
+            }
 
             List<double[]> ex = new List<double[]>();
             List<double[]> res = new List<double[]>();
@@ -105,7 +103,6 @@ namespace Tester
             {
                 net.Learn(ex, res, 0.1);
                 double error = net.EvaluateQuadraticError(ex, res);
-                //Console.WriteLine("Error {0}", error);
             }
 
             SpeechEntity the = new SpeechEntity("the");
@@ -134,6 +131,13 @@ namespace Tester
             on.Add(SpeechClass._ADP_);
 
             Parse(new SpeechEntity[] { the, mean, angry, cat, _is, eating, the, green, mouse, on, the, red, carpet });
+            Console.WriteLine("----------------------------------");
+            Parse(new SpeechEntity[] { the, angry, cat, _is, eating });
+            Console.WriteLine("----------------------------------");
+            Parse(new SpeechEntity[] { the, mean, angry, cat, _is, eating });
+            Console.WriteLine("----------------------------------");
+            Parse(new SpeechEntity[] { the, mean, angry, cat, _is, eating, the, green, mouse });
+            Console.WriteLine("----------------------------------");
 
            /* DeepLearningAlgorithmFactory factory = new DeepLearningAlgorithmFactory();
             var algorithm = factory.NewInstance();

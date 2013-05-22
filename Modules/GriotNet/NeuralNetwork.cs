@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GriotNet
 {
+    [DataContract]
     public class NeuralNetwork
     {
+        [DataMember]
         private List<Layer> mLayers = new List<Layer>();
+
         private List<double[,]> mWeightDelta = new List<double[,]>();
         private List<double[]> mGradient = new List<double[]>();
 

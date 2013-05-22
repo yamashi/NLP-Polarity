@@ -2,17 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GriotNet
 {
+    [DataContract]
     public class Layer
     {
+        [DataMember]
         private UInt32 mNeuronCount;
+        [DataMember]
         private UInt32 mDendrites;
 
+        [DataMember]
         private List<Neuron> mNeurons = new List<Neuron>();
+        [DataMember]
         private double[] mOutputs;
 
         public static double[] AddBias(double[] inputs)

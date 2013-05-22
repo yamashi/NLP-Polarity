@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace GriotNet
 {
+    [DataContract]
     public class Neuron
     {
+        [DataMember]
         private double[] mWeights;
+
+        [DataMember]
         private double mActivation;
 
         public Neuron(UInt32 pNeuronDendrites)
