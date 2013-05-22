@@ -8,99 +8,79 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
     public class RecursiveNetwork
     {
-        GriotNet.NeuralNetwork _network;
-        WordMatrix matrix;
-        double[] _inputs = null;
+        private WordMatrix _matrix;
+        private GriotNet.NeuralNetwork _network;
 
         public RecursiveNetwork(WordMatrix matrix)
         {
-            this.matrix = matrix;
+            this._matrix = matrix;
 
-            _inputs = new double[matrix.FeatureCount * 2];
             _network = new GriotNet.NeuralNetwork();
+
+            _network.AddLayer(20);
+            _network.AddLayer(5);
+            _network.AddLayer(30);
+            _network.AddLayer(8);
+            _network.AddLayer(11);
         }
 
-        public void BuildNetwork()
+        public void Train(List<double[]> examples, List<double[]> results)
         {
-            _network.AddLayer(matrix.FeatureCount * 2);
-            _network.AddLayer(64);
-            _network.AddLayer(4);
-            _network.AddLayer(16);
-            _network.AddLayer(matrix.FeatureCount);
+            _network.Learn(examples, results, 0.1);
         }
 
-        public double[] Think(string sentence)
+       public void Parse(string sentence)
         {
-            return Think(sentence.Split(' '));
-        }
-
-        public double[] Think(string[] sentence)
-        {
-            SpeechEntity[] ents = new SpeechEntity[sentence.Length];
-            for (int i = 0; i < sentence.Length; ++i)
+            string[] words = sentence.Split(" ".ToCharArray());
+            SpeechEntity[] ents = new SpeechEntity[words.Length];
+            for (int i = 0; i < words.Length; ++i)
             {
-                ents[i] = matrix[sentence[i]];
+                ents[i] = _matrix[words[i]];
             }
-
-            return Recurse(ents);
+            Parse(ents);
         }
 
-        private double[] Recurse(SpeechEntity[] entities)
+        void Parse(SpeechEntity[] entities)
         {
-            SpeechEntity best = null;
-            double bestRet = Double.NegativeInfinity;
-            int startIdx = -1;
+            double bestScore = -1.0;
+            int idx = -1;
 
-            if (entities.Length == 2)
-            {
-                //ExtractParameters(entities[0], entities[1]);
-                double[] res = _network.Evaluate(_inputs);
-
-                //Console.WriteLine("Final : " + new SpeechEntity(res, entities[0].Entity + " " + entities[1].Entity));
-
-                return res;
-            }
+            double[] result = null;
 
             for (int i = 0; i < entities.Length - 1; ++i)
             {
-                //ExtractParameters(entities[i], entities[i + 1]);
-
-                double[] res = _network.Evaluate(_inputs);
-
-                double t = res[0] + res[1];
-
-                //Console.WriteLine(new SpeechEntity(res, entities[i].Entity + " " + entities[i + 1].Entity));
-
-                if (t > bestRet)
+                var resu = _network.Evaluate(SpeechEntity.Group(entities[i], entities[i + 1]));
+                if (resu[11] > bestScore)
                 {
-                    startIdx = i;
-                  //  best = new SpeechEntity(res, entities[i].Entity + " " + entities[i + 1].Entity);
-                    bestRet = t;
+                    bestScore = resu[11];
+                    idx = i;
+
+                    result = (double[])resu.Clone();
                 }
             }
 
-            Console.WriteLine("Best : " + best);
+            var resEntity = new SpeechEntity(entities[idx], entities[idx + 1], result);
 
-            SpeechEntity[] next = new SpeechEntity[entities.Length - 1];
-            for (int i = 0, j = 0; i < next.Length; ++i, ++j)
+            Console.WriteLine("{0}", resEntity);
+            if (entities.Length > 2)
             {
-                if (startIdx == i)
+                SpeechEntity[] ents = new SpeechEntity[entities.Length - 1];
+                for (int i = 0, j = 0; i < entities.Length; ++i, ++j)
                 {
-                    next[i] = best;
-                    j += 1;
+                    if (i == idx)
+                    {
+                        ents[j] = resEntity;
+                        i += 1;
+                        continue;
+                    }
+                    else
+                    {
+                        ents[j] = entities[i];
+                    }
                 }
-                else
-                {
-                    next[i] = entities[j];
-                }
+
+                Parse(ents);
             }
-
-            return Recurse(next);
         }
-
-        public void Train(string[] sentence, double polarity)
-        {
-        }
-
     }
 }

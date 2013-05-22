@@ -7,32 +7,32 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
     public class WordMatrix
     {
-        private UInt32 _featureCount;
         private Dictionary<string, SpeechEntity> _matrix = new Dictionary<string, SpeechEntity>();
 
-        public WordMatrix(UInt32 featureCount)
+        public WordMatrix()
         {
-            _featureCount = featureCount;
         }
 
-        public void Add(string word)
+        public void Add(string word, SpeechClass[] speechClasses)
         {
+            if (!_matrix.ContainsKey(word))
+            {
+                SpeechEntity e = new SpeechEntity(word);
+                if(speechClasses != null)
+                    foreach (var c in speechClasses)
+                    {
+                        e.Add(c);
+                    }
+                _matrix.Add(word, e);
+            }
         }
 
         public SpeechEntity this[string word]
         {
             get
             {
-                Add(word);
+                Add(word, null);
                 return _matrix[word];
-            }
-        }
-
-        public UInt32 FeatureCount
-        {
-            get
-            {
-                return _featureCount;
             }
         }
 
