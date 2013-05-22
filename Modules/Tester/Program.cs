@@ -7,182 +7,74 @@ using System.Threading.Tasks;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Xml;
 
 namespace Tester
 {
     class Program
     {
-        static GriotNet.NeuralNetwork net = new GriotNet.NeuralNetwork();
+        static List<double[]> ex = new List<double[]>();
+        static List<double[]> res = new List<double[]>();
 
-        static void Parse(SpeechEntity[] entities)
+        static void Populate(WordMatrix matrix, string word, SpeechClass c)
         {
-            double bestScore = -1.0;
-            int idx = -1;
+            matrix.Add(word, new SpeechClass[] { c });
+        }
 
-            double[] result = null;
-            
-            for (int i = 0; i < entities.Length - 1; ++i)
-            {
-                var resu = net.Evaluate(SpeechEntity.Group(entities[i], entities[i + 1]));
-                if (resu[11] > bestScore)
-                {
-                    bestScore = resu[11];
-                    idx = i;
+        static void RawPopulate(WordMatrix matrix)
+        {
+            SpeechEntity v = matrix["_VOID_"];
 
-                    result = (double[])resu.Clone();
-                }
-            }
+            Populate(matrix, "_DET_", SpeechClass._DET_);
+            Populate(matrix, "_NOUN_", SpeechClass._NOUN_);
+            Populate(matrix, "_VERB_", SpeechClass._VERB_);
+            Populate(matrix, "_ADJ_", SpeechClass._ADJ_);
+            Populate(matrix, "_ADP_", SpeechClass._ADP_);
+        }
 
-            var resEntity = new SpeechEntity(entities[idx], entities[idx + 1], result);
+        static void VocabularyPopulate(WordMatrix mat)
+        {
+            Populate(mat, "the", SpeechClass._DET_);
+            Populate(mat, "angry", SpeechClass._ADJ_);
+            Populate(mat, "mean", SpeechClass._ADJ_);
+            Populate(mat, "green", SpeechClass._ADJ_);
+            Populate(mat, "red", SpeechClass._ADJ_);
+            Populate(mat, "dirty", SpeechClass._ADJ_);
+            Populate(mat, "cat", SpeechClass._NOUN_);
+            Populate(mat, "mouse", SpeechClass._NOUN_);
+            Populate(mat, "carpet", SpeechClass._NOUN_);
+            Populate(mat, "outside", SpeechClass._NOUN_);
+            Populate(mat, "is", SpeechClass._VERB_);
+            Populate(mat, "eating", SpeechClass._VERB_);
+            Populate(mat, "on", SpeechClass._ADP_);
+        }
 
-            Console.WriteLine("{0}", resEntity);
-            if (entities.Length > 2)
-            {
-                SpeechEntity[] ents = new SpeechEntity[entities.Length - 1];
-                for(int i = 0, j = 0; i < entities.Length; ++i, ++j)
-                {
-                    if(i == idx)
-                    {
-                        ents[j] = resEntity;
-                        i += 1;
-                        continue;
-                    }
-                    else
-                    {
-                        ents[j] = entities[i];
-                    }
-                }
-
-                Parse(ents);
-            }
+        static void AddSample(WordMatrix mat, string word1, string word2, SpeechEntity result, double expected)
+        {
+            ex.Add(SpeechEntity.Group(mat[word1], mat[word2]));
+            res.Add(result.ToArray().Concat(new double[] { expected }).ToArray());
         }
 
         static void Main(string[] args)
         {
-            net.AddLayer(20);
-            net.AddLayer(5);
-            net.AddLayer(30);
-            net.AddLayer(8);
-            net.AddLayer(11);
+            WordMatrix mat = new WordMatrix();
+            RecursiveNetwork net = new RecursiveNetwork(mat);
 
-            DataContractSerializer x = new DataContractSerializer(net.GetType());
+            RawPopulate(mat);
+            VocabularyPopulate(mat);
 
-            using (XmlWriter xw = XmlWriter.Create(Console.Out))
-            {
-                x.WriteObject(xw, net);
-            }
+            AddSample(mat, "_NOUN_", "_VERB_", SpeechEntity.Merge(mat["_NOUN_"], mat["_VERB_"]), 0.5);
+            AddSample(mat, "_VERB_", "_VERB_", mat["_VERB_"], 1.0);
+            AddSample(mat, "_DET_", "_NOUN_", mat["_NOUN_"], 0.9);
+            AddSample(mat, "_DET_", "_ADJ_", mat["_DET_"], -1.0);
+            AddSample(mat, "_ADJ_", "_NOUN_", mat["_NOUN_"], 1.0);
+            AddSample(mat, "_VERB_", "_DET_", mat["_VERB_"], -1.0);
+            AddSample(mat, "_NOUN_", "_ADP_", mat["_NOUN_"], 0.5);
+            AddSample(mat, "_ADP_", "_NOUN_", mat["_NOUN_"], 0.5);
 
-            List<double[]> ex = new List<double[]>();
-            List<double[]> res = new List<double[]>();
-
-            SpeechEntity v = new SpeechEntity("");
-            SpeechEntity det = new SpeechEntity("_DET_");
-            det.Add(SpeechClass._DET_);
-            SpeechEntity noun = new SpeechEntity("_NOUN_");
-            noun.Add(SpeechClass._NOUN_);
-            SpeechEntity verb = new SpeechEntity("_VERB_");
-            verb.Add(SpeechClass._VERB_);
-            SpeechEntity adj = new SpeechEntity("_ADJ_");
-            adj.Add(SpeechClass._ADJ_);
-            SpeechEntity adp = new SpeechEntity("_ADP_");
-            adj.Add(SpeechClass._ADP_);
-
-            
-            ex.Add(SpeechEntity.Group(noun, verb)); res.Add(SpeechEntity.Merge(noun, verb).ToArray().Concat(new double[] { 0.5 }).ToArray());
-            ex.Add(SpeechEntity.Group(verb, verb)); res.Add(verb.ToArray().Concat(new double[] { 1.0 }).ToArray());
-            ex.Add(SpeechEntity.Group(det, noun)); res.Add(noun.ToArray().Concat(new double[] { 0.9 }).ToArray());
-            ex.Add(SpeechEntity.Group(det, adj)); res.Add(det.ToArray().Concat(new double[] { -1.0 }).ToArray());
-            ex.Add(SpeechEntity.Group(adj, noun)); res.Add(noun.ToArray().Concat(new double[] { 1.0 }).ToArray());
-            ex.Add(SpeechEntity.Group(verb, det)); res.Add(verb.ToArray().Concat(new double[] { -1.0 }).ToArray());
-            ex.Add(SpeechEntity.Group(noun, adp)); res.Add(noun.ToArray().Concat(new double[] { 0.5 }).ToArray());
-            ex.Add(SpeechEntity.Group(adp, det)); res.Add(adp.ToArray().Concat(new double[] { -1.0 }).ToArray());
-
-            for (int i = 0; i < 1000; ++i)
-            {
-                net.Learn(ex, res, 0.1);
-                double error = net.EvaluateQuadraticError(ex, res);
-            }
-
-            SpeechEntity the = new SpeechEntity("the");
-            the.Add(SpeechClass._DET_);
-            SpeechEntity angry = new SpeechEntity("angry");
-            angry.Add(SpeechClass._ADJ_);
-            SpeechEntity mean = new SpeechEntity("mean");
-            mean.Add(SpeechClass._ADJ_);
-            SpeechEntity green = new SpeechEntity("green");
-            green.Add(SpeechClass._ADJ_);
-            SpeechEntity red = new SpeechEntity("red");
-            red.Add(SpeechClass._ADJ_);
-            SpeechEntity cat = new SpeechEntity("cat");
-            cat.Add(SpeechClass._NOUN_);
-            SpeechEntity mouse = new SpeechEntity("mouse");
-            mouse.Add(SpeechClass._NOUN_);
-            SpeechEntity carpet = new SpeechEntity("carpet");
-            carpet.Add(SpeechClass._NOUN_);
-            SpeechEntity outside = new SpeechEntity("outside");
-            outside.Add(SpeechClass._NOUN_);
-            SpeechEntity _is = new SpeechEntity("is");
-            _is.Add(SpeechClass._VERB_);
-            SpeechEntity eating = new SpeechEntity("eating");
-            eating.Add(SpeechClass._VERB_);
-            SpeechEntity on = new SpeechEntity("on");
-            on.Add(SpeechClass._ADP_);
-
-            Parse(new SpeechEntity[] { the, mean, angry, cat, _is, eating, the, green, mouse, on, the, red, carpet });
-            Console.WriteLine("----------------------------------");
-            Parse(new SpeechEntity[] { the, angry, cat, _is, eating });
-            Console.WriteLine("----------------------------------");
-            Parse(new SpeechEntity[] { the, mean, angry, cat, _is, eating });
-            Console.WriteLine("----------------------------------");
-            Parse(new SpeechEntity[] { the, mean, angry, cat, _is, eating, the, green, mouse });
-            Console.WriteLine("----------------------------------");
-
-           /* DeepLearningAlgorithmFactory factory = new DeepLearningAlgorithmFactory();
-            var algorithm = factory.NewInstance();
-
-            WordMatrix matrix = new WordMatrix(50, "paths.txt");
-
-            RecursiveNetwork network = new RecursiveNetwork(matrix);
-            network.BuildNetwork();
-
-            string[] samples = new string[]
-            {
-                "I like poneys",
-                "I hate poneys",
-                "Poneys are cool",
-                "Poneys are pretty",
-                "I like flowers",
-                "You like flowers",
-                "I enjoy cool poneys"
-            };
-
-            Train(network, samples);
-
-            double[] ret = network.Think("I like cool poneys");
-
-            Console.WriteLine(matrix);
-
-            /*algorithm.Learn(null);
-            algorithm.Analyse(null);*/
+            net.Train(ex, res);
+            net.Parse("The mean angry cat is eating the green mouse on the red dirty carpet");
 
             Console.ReadKey();
-        }
-
-        static void Train(RecursiveNetwork net, string[] samples)
-        {
-            ArrayList words = new ArrayList();
-
-            for (int i = 0; i < samples.Length; ++i)
-            {
-                string[] w = samples[i].Split(' ');
-                words.Add(w);
-            }
-
-            for (int j = 0; j < 50; ++j )
-                for (int i = 0; i < words.Count; ++i)
-                    net.Train((string[])words[i], 1.0);
         }
     }
 }

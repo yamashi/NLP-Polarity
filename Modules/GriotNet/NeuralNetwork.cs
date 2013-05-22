@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -183,11 +184,21 @@ namespace GriotNet
                           double pLearningRate)
         {
             double e = double.PositiveInfinity;
+            int counter = 0;
 
+            Stopwatch w = new Stopwatch();
+            w.Start();
             while (e > 0.001f)
             {
                 BatchBackPropagation(examples, results, pLearningRate);
                 e = EvaluateQuadraticError(examples, results);
+                ++counter;
+
+                if (w.ElapsedMilliseconds > 1000)
+                {
+                    w.Restart();
+                    Console.WriteLine("Current error : " + e + " in " + counter + " iterations");
+                }
             }
         }
     }
