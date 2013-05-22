@@ -22,6 +22,19 @@ namespace GriotNet
 
         }
 
+        [OnDeserialized]
+        void OnDeserialized(StreamingContext c)
+        {
+            mWeightDelta = new List<double[,]>();
+            mGradient = new List<double[]>();
+
+            foreach (Layer l in mLayers)
+            {
+                mWeightDelta.Add(new double[l.Size, l.GetWeightsFor(0).Length]);
+                mGradient.Add(new double[l.Size]);
+            }
+        }
+
         public void AddLayer(UInt32 pNeuronCount)
         {
             int i = mLayers.Count;

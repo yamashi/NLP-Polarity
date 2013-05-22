@@ -1,20 +1,30 @@
 ﻿using NeuroBox;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml;
 
 namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 {
+    [DataContract]
     public class RecursiveNetwork
     {
         private WordMatrix _matrix;
+        
+        [DataMember]
         private GriotNet.NeuralNetwork _network;
 
-        public RecursiveNetwork(WordMatrix matrix)
+        public RecursiveNetwork(WordMatrix matrix) : this()
         {
             this._matrix = matrix;
 
+        }
+
+        public RecursiveNetwork()
+        {
             _network = new GriotNet.NeuralNetwork();
 
             _network.AddLayer(20);
@@ -27,6 +37,44 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
         public void Train(List<double[]> examples, List<double[]> results)
         {
             _network.Learn(examples, results, 0.1);
+        }
+
+        public static void Dump(RecursiveNetwork matrix, string path)
+        {
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Create);
+
+                XmlWriter xw = XmlWriter.Create(fs, new XmlWriterSettings { Indent = true });
+                var writer = XmlDictionaryWriter.CreateDictionaryWriter(xw);
+                DataContractSerializer ser = new DataContractSerializer(typeof(RecursiveNetwork));
+                ser.WriteObject(writer, matrix);
+
+                writer.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+        }
+
+        public static RecursiveNetwork Load(string path)
+        {
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Open);
+                var reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                var ser = new DataContractSerializer(typeof(RecursiveNetwork));
+                RecursiveNetwork net = (RecursiveNetwork)ser.ReadObject(reader);
+                fs.Close();
+
+                return net;
+            }
+            catch { }
+
+            return new RecursiveNetwork();
+
         }
 
        public void Parse(string sentence)
@@ -81,6 +129,12 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 
                 Parse(ents);
             }
+        }
+
+        public WordMatrix Matrix
+        {
+            get { return _matrix; }
+            set { _matrix = value; }
         }
     }
 }

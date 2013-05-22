@@ -13,7 +13,6 @@ namespace GriotNet
         [DataMember]
         private double[] mWeights;
 
-        [DataMember]
         private double mActivation;
 
         public Neuron(UInt32 pNeuronDendrites)

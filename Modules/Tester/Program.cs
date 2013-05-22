@@ -100,7 +100,9 @@ namespace Tester
         static void Main(string[] args)
         {
             WordMatrix mat = WordMatrix.Load("dic/en.ser");
-            RecursiveNetwork net = new RecursiveNetwork(mat);
+            RecursiveNetwork net = RecursiveNetwork.Load("dic/network.ser");
+
+            net.Matrix = mat;
 
             AddSample(mat, "_NOUN_", "_VERB_", SpeechEntity.Merge(mat["_NOUN_"], mat["_VERB_"]), 0.5);
             AddSample(mat, "_PRON_", "_VERB_", SpeechEntity.Merge(mat["_NOUN_"], mat["_VERB_"]), 1.0);
@@ -135,6 +137,7 @@ namespace Tester
             //net.Parse("The mean angry cat is eating the green mouse on the red dirty carpet");
 
             WordMatrix.Dump(mat, "dic/en.ser");
+            RecursiveNetwork.Dump(net, "dic/network.ser");
         }
     }
 }
