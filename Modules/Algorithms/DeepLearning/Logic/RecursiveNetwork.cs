@@ -77,18 +77,21 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 
         }
 
-       public void Parse(string sentence)
+        public SpeechEntity Parse(string sentence)
         {
             string[] words = sentence.Split(" ".ToCharArray());
+
             SpeechEntity[] ents = new SpeechEntity[words.Length];
+
             for (int i = 0; i < words.Length; ++i)
             {
                 ents[i] = _matrix[words[i]];
             }
-            Parse(ents);
+
+            return Parse(ents);
         }
 
-        void Parse(SpeechEntity[] entities)
+        SpeechEntity Parse(SpeechEntity[] entities)
         {
             double bestScore = -1.0;
             int idx = -1;
@@ -109,7 +112,6 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 
             var resEntity = new SpeechEntity(entities[idx], entities[idx + 1], result);
 
-            Console.WriteLine("{0}", resEntity);
             if (entities.Length > 2)
             {
                 SpeechEntity[] ents = new SpeechEntity[entities.Length - 1];
@@ -127,8 +129,11 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
                     }
                 }
 
-                Parse(ents);
+                return Parse(ents);
             }
+
+            resEntity.Entity = "_ROOT_";
+            return resEntity;
         }
 
         public WordMatrix Matrix

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning;
 using NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Tester
 {
@@ -14,6 +15,73 @@ namespace Tester
     {
         static List<double[]> ex = new List<double[]>();
         static List<double[]> res = new List<double[]>();
+
+        static int CalculateWidth(SpeechEntity node)
+        {
+            Font drawFont = new Font("Arial", 16);
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                node.Width = (int)g.MeasureString(node.Entity, drawFont).Width;
+            }
+
+            if (node.Left != null)
+            {
+                CalculateWidth(node.Left);
+                node.Width += node.Left.Width;
+            }
+            if (node.Right != null)
+            {
+                CalculateWidth(node.Right);
+                node.Width += node.Right.Width;
+            }
+
+            return node.Width;
+        }
+
+        static void DrawNode(Graphics g, SpeechEntity node, double x, double y)
+        {
+            Pen blackPen = new Pen(Color.Black, 3);
+            Font drawFont = new Font("Arial", 16);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+            SizeF size = g.MeasureString(node.Entity, drawFont);
+
+            float left = (float)x + (node.Width - 100) / 2;
+            float top = (float)y;
+
+           // g.DrawEllipse(blackPen, left, top, (float)100, (float)32);
+            g.DrawString(node.Entity, drawFont, drawBrush, left + 50 - size.Width / 2, top + 8);
+
+            if (node.Left != null)
+            {
+                float leafRight = (float)x + (node.Left.Width - 100) / 2 + 80;
+
+                g.DrawLine(blackPen, left + 20, top + 36, leafRight, top + 80);
+
+                DrawNode(g, node.Left, x, y + 80);
+            }
+            if (node.Right != null)
+            {
+                float leafLeft = (float)x + node.Width - node.Right.Width + (node.Right.Width - 100) / 2 + 20;
+
+                g.DrawLine(blackPen, left + 80, top + 36, leafLeft, top + 80);
+
+                DrawNode(g, node.Right, x + node.Width - node.Right.Width, y + 80);
+            }
+        }
+
+        static void Draw(SpeechEntity root)
+        {
+            Bitmap myBitmap = new Bitmap(CalculateWidth(root) + 20, 600);
+
+            Graphics myGraphics = Graphics.FromImage(myBitmap);
+
+            DrawNode(myGraphics, root, 0, 0);
+
+            myBitmap.Save("test.bmp");
+            
+            myGraphics.Dispose();
+        }
 
         static void Populate(WordMatrix matrix, string word, SpeechClass c)
         {
@@ -24,28 +92,13 @@ namespace Tester
         {
             SpeechEntity v = matrix["_VOID_"];
 
-            Populate(matrix, "_DET_", SpeechClass._DET_);
-            Populate(matrix, "_NOUN_", SpeechClass._NOUN_);
-            Populate(matrix, "_VERB_", SpeechClass._VERB_);
-            Populate(matrix, "_ADJ_", SpeechClass._ADJ_);
-            Populate(matrix, "_ADP_", SpeechClass._ADP_);
-        }
+            string[] names = Enum.GetNames(typeof(SpeechClass));
+            SpeechClass[] values = (SpeechClass[])Enum.GetValues(typeof(SpeechClass));
 
-        static void VocabularyPopulate(WordMatrix mat)
-        {
-            Populate(mat, "the", SpeechClass._DET_);
-            Populate(mat, "angry", SpeechClass._ADJ_);
-            Populate(mat, "mean", SpeechClass._ADJ_);
-            Populate(mat, "green", SpeechClass._ADJ_);
-            Populate(mat, "red", SpeechClass._ADJ_);
-            Populate(mat, "dirty", SpeechClass._ADJ_);
-            Populate(mat, "cat", SpeechClass._NOUN_);
-            Populate(mat, "mouse", SpeechClass._NOUN_);
-            Populate(mat, "carpet", SpeechClass._NOUN_);
-            Populate(mat, "outside", SpeechClass._NOUN_);
-            Populate(mat, "is", SpeechClass._VERB_);
-            Populate(mat, "eating", SpeechClass._VERB_);
-            Populate(mat, "on", SpeechClass._ADP_);
+            for (int i = 0; i < names.Length; i++)
+            {
+                Populate(matrix, names[i], values[i]);
+            }
         }
 
         static void AddSample(WordMatrix mat, string word1, string word2, SpeechEntity result, double expected)
@@ -58,30 +111,19 @@ namespace Tester
         {
             Console.WriteLine("The word \"" + w + "\" is unknow");
             Console.Write("Type the word's grammar type : ");
-                
-            switch(Console.ReadLine())
+            
+            while(true)
             {
-                case "_NOUN_":
-                    Populate(mat, w, SpeechClass._NOUN_);
+                string className = Console.ReadLine();
+                if(Enum.IsDefined(typeof(SpeechClass), className))
+                {
+                    Populate(mat, w, (SpeechClass)Enum.Parse(typeof(SpeechClass), className, true));
                     break;
-                case "_VERB_":
-                    Populate(mat, w, SpeechClass._VERB_);
-                    break;
-                case "_ADJ_":
-                    Populate(mat, w, SpeechClass._ADJ_);
-                    break;
-                case "_DET_":
-                    Populate(mat, w, SpeechClass._DET_);
-                    break;
-                case "_ADP_":
-                    Populate(mat, w, SpeechClass._ADP_);
-                    break;
-                case "_PRON_":
-                    Populate(mat, w, SpeechClass._PRON_);
-                    break;
-                case "_CONJ_":
-                    Populate(mat, w, SpeechClass._CONJ_);
-                    break;
+                }
+                else
+                {
+                    Console.WriteLine("This class does not exist.");
+                }
             }
         }
 
@@ -99,8 +141,14 @@ namespace Tester
 
         static void Main(string[] args)
         {
-            WordMatrix mat = WordMatrix.Load("dic/en.ser");
+            Console.WriteLine("Type the first 2 letters of the language");
+            Console.Write("> ");
+            string lang = Console.ReadLine();
+
+            WordMatrix mat = WordMatrix.Load("dic/" + lang + ".ser");
             RecursiveNetwork net = RecursiveNetwork.Load("dic/network.ser");
+
+            RawPopulate(mat);
 
             net.Matrix = mat;
 
@@ -120,23 +168,23 @@ namespace Tester
 
             while (true)
             {
-                Console.Write("Type sentence : ");
+                Console.Write("> ");
 
                 string str = Console.ReadLine();
 
-                if(str == "QUIT")
+                if(str == "q")
                     break;
 
                 string[] words = str.Split(" ".ToCharArray());
                 QueryWords(mat, words);
 
                 Console.WriteLine("");
-                net.Parse(str);
+                Draw(net.Parse(str));
                 Console.WriteLine("");
             }
             //net.Parse("The mean angry cat is eating the green mouse on the red dirty carpet");
 
-            WordMatrix.Dump(mat, "dic/en.ser");
+            WordMatrix.Dump(mat, "dic/" + lang + ".ser");
             RecursiveNetwork.Dump(net, "dic/network.ser");
         }
     }

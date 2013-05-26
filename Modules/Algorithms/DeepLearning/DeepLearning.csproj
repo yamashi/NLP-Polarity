@@ -51,6 +51,7 @@
     <Compile Include="DeepLearningAlgorithmFactory.cs" />
     <Compile Include="Exceptions\InvalidArguments.cs" />
     <Compile Include="Logic\LogicGate.cs" />
+    <Compile Include="Logic\Node.cs" />
     <Compile Include="Logic\Normalize.cs" />
     <Compile Include="Logic\RecursiveNetwork.cs" />
     <Compile Include="Logic\SpeechClass.cs" />

@@ -16,6 +16,34 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
         [DataMember]
         private string entity;
 
+        [IgnoreDataMember]
+        public SpeechEntity Left
+        {
+            get;
+            set;
+        }
+
+        [IgnoreDataMember]
+        public SpeechEntity Right
+        {
+            get;
+            set;
+        }
+
+        [IgnoreDataMember]
+        public int Width
+        {
+            get;
+            set;
+        }
+
+        [IgnoreDataMember]
+        public string Entity
+        {
+            get { return entity; }
+            set { entity = value; }
+        }
+
         public SpeechEntity(string entity)
         {
             this.entity = entity;
@@ -23,19 +51,30 @@ namespace NaturalLanguageProcessing.Polarity.Algorithms.DeepLearning.Logic
 
         public SpeechEntity(SpeechEntity entity1, SpeechEntity entity2)
         {
-            entity = entity1.ToString() + " + " + entity2.ToString();
+            Left = entity1;
+            Right = entity2;
+
+            entity = "";// entity1.ToString() + " + " + entity2.ToString();
         }
 
         public SpeechEntity(SpeechEntity entity1, SpeechEntity entity2, double[] arr)
         {
-            // 0 is bias
+            Left = entity1;
+            Right = entity2;
+
+            entity = "";
+
+            // 0 is the bias
             for (int i = 1; i < 11; ++i)
             {
                 if (arr[i] > 0.9)
+                {
                     Add((SpeechClass)(i - 1));
+                    entity += (SpeechClass)(i - 1) + " ";
+                }
             }
 
-            entity = entity1.ToString() + " + " + entity2.ToString();
+            //entity = ".";// entity1.ToString() + " + " + entity2.ToString();
         }
 
         public void Add(SpeechClass c)
